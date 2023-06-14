@@ -1,0 +1,223 @@
+/*||General styles||*/
+body {
+  height: 100vw;
+  margin-bottom: 1rem;
+  padding: 0;
+/* pool table green */
+  background-color: hsl(116, 95%, 22%);
+  color: white;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  text-align: center;
+  font-family:cursive;
+  color: white;
+  font-size: 6em;
+  text-shadow: 2px 2px red;
+}
+
+h2 {
+
+  text-align: center;
+  font-size: 3em;
+  
+  
+}
+p {
+  text-align: justify;
+}
+
+a {
+  color: rgb(0, 255, 247);
+}
+/*|| Grid-layout||*/
+
+.playingCards {
+  /* grid container*/
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+  /*auto-fit allows browser to calculate column sizing and wrapping
+      minmax() sets min width of each column-set so cards don't shrink on resizing of
+      browser
+      1st value sets min width, 2nd value sets max, fr used for flexible layout*/
+  grid-gap: 0.7em;
+  /*em units used for flexible sizing*/
+  width: 80vw;
+  font-size: 1em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.playingCards .card .front,
+.playingCards .card .back {
+  position: relative;
+  /*relative to grid container*/
+
+  width: 7em;
+ 
+  margin-top: 2em;
+  font-size: 2em;
+}
+
+/*|| Card styling||*/
+/*Applys svg playing card image to cards*/
+
+.playingCards .card.rank-7.spades .front {
+  background-image: url(images/spades_7.svg);
+  background-size: 3.5em 6em;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.3em;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.playingCards .card.rank-7.diamonds .front {
+  background-image: url(images/diamonds_7.svg);
+  background-size: 3.5em 6em;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.3em;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.playingCards .card.rank-7.clubs .front {
+  background-image: url(images/clubs_7.svg);
+  background-size: 3.5em 6em;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.3em;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.playingCards .card.rank-7.hearts .front {
+  background-image: url(images/hearts_7.svg);
+  background-size: 3.5em 6em;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 0.3em;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+.playingCards .card.rank-2.clubs .front {
+  background-image: url(images/clubs_2.svg);
+  background-size: 3.5em 6em;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-radius: 0.3em;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+.playingCards .card .back {
+  background-image: linear-gradient(to bottom right, white, black);
+  border-radius: 0.5em;
+  background-size: 4em 6em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+}
+
+/*|| Hide back of cards||*/
+.playingCards .card {
+  position: relative;
+  width: 7em;
+  height: 12em;
+  perspective: 1000px;
+}
+
+.playingCards .card .front,
+.playingCards .card .back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.playingCards .card .front {
+  z-index: 2;
+  /*ensures front of cards remain on top*/
+}
+
+/*||Raise on hover||*/
+.playingCards .card .front:hover {
+  box-shadow: 7px 9px 10px 1px rgba(0, 0, 0, 0.5);
+  /*shadow moves with cards on hover - changes here must be 
+    made above also in .playingCards .card */
+  transform: translateY(-15px);
+  transition: all 0.5s ease-in-out;
+  /*raise effect smoother with transition property
+    all value means all animatable properties */
+}
+/*|| Expand card size declared here - when javascript function called this selector is passed through as an argument for the toggle.
+this class selector will be added or removed by the javascript toggle||*/
+.card.expanded { 
+  transition: all 0.3s ease-out;
+  transform: scale(1.3);
+}
+
+/*|| Flip when clicked||*/
+.playingCards .card .back {
+  transform: rotateY(180deg);
+}
+
+.playingCards .card:active .front {
+  animation: flip-front 1s forwards;
+}
+
+.playingCards .card:active .back {
+  animation: flip-back 1s forwards;
+}
+
+@keyframes flip-front {
+  from {
+    transform: rotateY(0deg);
+  }
+
+  to {
+    transform: rotateY(-180deg);
+  }
+}
+
+@keyframes flip-back {
+  from {
+    transform: rotateY(180deg);
+  }
+
+  to {
+    transform: rotateY(0deg);
+  }
+}
+/* Responsive columns - one column layout (vertical) on small screens */
+@media screen and (max-width: 600px) {
+  .playingCards {
+    /* grid container */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(7em, 1fr));
+    grid-gap: 0.7em;
+    width: 80vw;
+    font-size: 0.8em; 
+/* reduce font size on small screens */
+  }
+}
+/*
+created during planning phase but not used
+
+||flex-layout||
+.playingCards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.playingCards .card {
+  position: relative;
+  width: 2.5em;
+  height: 3.5em;
+  margin: 0.1em;
+  background-color: white;
+  border-radius: 0.25em;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+}*/
